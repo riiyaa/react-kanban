@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root{
+  --primary: rgb(99 95 199/1);
+  --hoverPrimary:rgb(99 95 199/0.7)
+}
