@@ -3,8 +3,21 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  darkMode:'class',
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        primary:{
+          light: '#635fc7',
+        },
+        hoverPrimary:{
+          light:'#bbb9ff'
+        }
+      }
+    },
   },
-  plugins: [],
+  daisyui: {
+    themes: ["light"],
+  },
+  plugins: [require("daisyui")],
 }

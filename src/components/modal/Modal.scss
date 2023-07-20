@@ -1,0 +1,16 @@
+.input:focus {
+    outline: none;
+}
+.themeBackground{
+    background-color: var(--primary);
+    color: white;
+}
+.themeBackground:hover{
+    background-color: var(--hoverPrimary);
+}
+.minH20{
+    min-height:20px ;
+}
+.flex-01{
+    flex: 0.1;
+}

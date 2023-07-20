@@ -1,16 +1,28 @@
-import logo from './logo.svg';
 import './App.scss';
 import Sidebar from './components/Sidebar/Sidebar';
 import Navbar from './components/Navbar/Navbar';
 import Dashboard from './components/Dashboard/Dashboard';
+import { useState,useEffect } from 'react';
+import Modal from './components/modal/Modal';
+
 
 function App() {
+
+  const [isModal, setIsModal] = useState('');
+
+  useEffect(() => {
+    console.log(isModal);
+  }, [isModal])
+  
+
+
   return (
     <div className='flex flex-row'>
       <Sidebar />
       <div className='flex flex-col w-full'>
-        <Navbar />
+        <Navbar modal={isModal} modalFuntion={setIsModal}/>
         <Dashboard/>
+        <Modal modal={isModal} modalFuntion={setIsModal} />
       </div>
     </div>
   );

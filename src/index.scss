@@ -4,6 +4,12 @@
 
 
 :root{
-  --primary: rgb(99 95 199/1);
+  --primary: #635fc7;
   --hoverPrimary:rgb(99 95 199/0.7)
+}
+
+@layer components{
+  .primaryBtn{
+    @apply py-2 px-4 text-xl font-bold text-white bg-gradient-to-r from-primary-light to-primary-light/70 rounded-[40px] cursor-pointer 
+  }
 }
