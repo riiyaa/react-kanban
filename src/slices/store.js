@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { boardsName } from './boardSlice/boardSlice'
+import  boardsName  from './boardSlice/boardSlice'
 
 export default configureStore({
   reducer: {
-    boards:boardsName
+    boards: boardsName,
   },
 })

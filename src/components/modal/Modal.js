@@ -1,28 +1,56 @@
 import React, { useState,useEffect } from "react";
+import { useDispatch,useSelector } from "react-redux";
 import "./Modal.scss";
 import { VscClose } from "react-icons/vsc";
+import { addBoard } from "../../slices/boardSlice/boardSlice";
 
 function Modal(props) {
-  const [array, setArray] = useState([
-    {
-      colName: "Todo",
-      colId: Date.now(),
-    },
-  ]);
 
-  const changeInput = (e, i) => {
-    let a = structuredClone(array);
-    a[i].colName = e.target.value
-    setArray(a)
+  const dispatch = useDispatch();
+  const boards  = useSelector((state) => state.boards);
+  const initialStatus = {
+    boardName:'BOARD',
+    boardId:Math.floor(Math.random() * 10000000),
+    columns:[
+      {
+        colName: "Todo",
+        colId: Math.floor(Math.random() * 10000000),
+      },
+    ]
+  }
+
+  const [array, setArray] = useState(initialStatus);
+
+  const changeName = (e) => {
+    setArray(prev => ({...prev,boardName:e.target.value}))
+  }
+
+  const changeColName = (e, i) => {
+    let val = structuredClone(array);
+    val.columns[i].colName = e.target.value
+    setArray(val)
   };
 
   const addCol = () => {
-    setArray((prev) => [...prev, { colName: "ABC", colId: Date.now() }]);
+    const val = structuredClone(array);
+    val.columns.push({
+      colName: "ABC",
+      colId: Math.floor(Math.random() * 10000000),
+    })
+    setArray(val);
   };
 
   const delCol = (id) => {
-    setArray((prev) => prev.filter((item, index) => item.colId !== id));
+    const val = structuredClone(array);
+    setArray((prev) => ({...prev,columns:val.columns.filter((item, index) => item.colId !== id)}));
   };
+
+  const submit = () => {
+    dispatch(addBoard(array))
+    setArray(initialStatus)
+    props.modalFuntion('')
+    console.log(boards);
+  }
 
   
 
@@ -39,12 +67,13 @@ function Modal(props) {
                 type="text"
                 placeholder="Board Name"
                 className="input border-slate-500 w-full"
-                onChange={(e) => {}}
+                value={array.boardName}
+                onChange={(e) => changeName(e)}
               />
               <br />
               <br />
 
-              {array.map((data, index) => {
+              {array.columns.map((data, index) => {
                 return (
                   <div
                     className="flex items-center justify-between gap-4 py-2"
@@ -55,7 +84,7 @@ function Modal(props) {
                       placeholder="Board Name"
                       className="input border-slate-500 w-full flex-1 h-9 outline-none"
                       value={data.colName}
-                      onChange={(event) => changeInput(event, index)}
+                      onChange={(event) => changeColName(event, index)}
                     />
                     <label
                       className=" py-1 px-3"
@@ -75,13 +104,10 @@ function Modal(props) {
               </div>
 
               <div className="modal-action flex justify-between">
-                <label htmlFor="my_modal_6" className="btn" onClick={() => setArray([{
-      colName: "Todo",
-      colId: Date.now(),
-    },])}>
+                <label htmlFor="my_modal_6" className="btn" onClick={() => setArray(initialStatus)}>
                   Close!
                 </label>
-                <label className="btn bg-slate-400">Submit</label>
+                <label className="btn bg-slate-400" onClick={()=>submit()}>Submit</label>
               </div>
             </div>
           </div>

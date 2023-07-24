@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, current } from '@reduxjs/toolkit'
 
 export const boardsName = createSlice({
   name: 'boardsArray',
@@ -8,8 +8,11 @@ export const boardsName = createSlice({
   },
   reducers: {
     addBoard: (state, action) => {
-        const {payload} = action;
-      return [...payload];
+      const {payload} = action;
+      let curr = structuredClone(current(state))
+      curr.boards.push(payload);
+      localStorage.setItem('boards',JSON.stringify(curr))
+      return curr;
     },
     
   },

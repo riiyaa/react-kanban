@@ -11,7 +11,6 @@ function App() {
   const [isModal, setIsModal] = useState('');
 
   useEffect(() => {
-    console.log(isModal);
   }, [isModal])
   
 
