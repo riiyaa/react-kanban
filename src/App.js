@@ -4,14 +4,20 @@ import Navbar from './components/Navbar/Navbar';
 import Dashboard from './components/Dashboard/Dashboard';
 import { useState,useEffect } from 'react';
 import Modal from './components/modal/Modal';
+import { useDispatch } from 'react-redux';
+import { initializeState } from './slices/boardSlice/boardSlice';
 
 
 function App() {
 
   const [isModal, setIsModal] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
-  }, [isModal])
+    if(localStorage.getItem('boards')){
+      dispatch(initializeState(JSON.parse(localStorage.getItem('boards'))));
+    }
+  }, [])
   
 
 

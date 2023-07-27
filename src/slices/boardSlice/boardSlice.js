@@ -23,6 +23,13 @@ export const boardsName = createSlice({
       return curr
     },
 
+    updateBoard:(state,action)=>{
+      const {payload} = action;
+      let curr = structuredClone(current(state));
+      curr.boards = curr.boards.filter((data)=>data.boardId != payload);
+      return curr
+    },
+
     initializeState:(state,action)=>{
       const {payload} = action;
       return payload
@@ -32,4 +39,4 @@ export const boardsName = createSlice({
 })
 
 export default boardsName.reducer
-export const {addBoard,selectBoardId,initializeState} = boardsName.actions;
+export const {addBoard,selectBoardId,updateBoard,initializeState} = boardsName.actions;

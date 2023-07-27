@@ -1,12 +1,13 @@
 import React, { useState,useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./Modal.scss";
 import { VscClose } from "react-icons/vsc";
-import { addBoard } from "../../slices/boardSlice/boardSlice";
+import { addBoard, updateBoard } from "../../slices/boardSlice/boardSlice";
 
 function Modal(props) {
 
   const dispatch = useDispatch();
+  const boardsItem = useSelector(state => state.boards)
   const initialStatus = {
     boardName:'BOARD',
     boardId:Math.floor(Math.random() * 10000000),
@@ -19,6 +20,7 @@ function Modal(props) {
   }
 
   const [array, setArray] = useState(initialStatus);
+  const [useBoard ,setUseBoard ]=useState('');
 
   const changeName = (e) => {
     setArray(prev => ({...prev,boardName:e.target.value}))
@@ -46,11 +48,19 @@ function Modal(props) {
 
   const submit = () => {
     dispatch(addBoard(array))
-    setArray(initialStatus)
-    props.modalFuntion('')
+    setArray(initialStatus);
+    props.modalFuntion('');
   }
 
-  
+  const selectBoard = (e) => {
+      setUseBoard(e.target.value);
+  }
+
+  const deleteBoard = () => {
+    dispatch(updateBoard(useBoard));
+    setArray(initialStatus);
+    props.modalFuntion('');
+  }
 
   return (
     <>
@@ -119,22 +129,22 @@ function Modal(props) {
               <h1 className="font-bold text-2xl">Delete your board</h1>
               <p className="py-4">This modal works with a hidden checkbox!</p>
               <select
-                className="select select-bordered"
+                className="select select-bordered w-full"
                 defaultValue={"DEFAULT"}
-                onChange={(event) => {}}
+                onChange={(event) => selectBoard(event)}
               >
                 <option value="DEFAULT" disabled>
                   Pick one
                 </option>
-                {/* {boards.map((it,index) => (
-                    <option key={index}>{it.name}</option>
-                  ))} */}
+                {boardsItem.boards.map((it,index) => (
+                    <option className="py-1" key={index} value={it.boardId}>{it.boardName}</option>
+                  ))}
               </select>
               <div className="modal-action flex justify-between">
                 <label htmlFor="my_modal_6" className="btn">
                   Close!
                 </label>
-                <label className="btn bg-slate-400">Submit</label>
+                <label className="btn bg-slate-400" onClick={()=> deleteBoard()}>Submit</label>
               </div>
             </div>
           </div>
