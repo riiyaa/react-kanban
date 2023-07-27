@@ -11,7 +11,6 @@ function Sidebar() {
 
   const boardsItem  = useSelector((state) => state.boards);
   const dispatch = useDispatch();
-  console.log(boardsItem);
 
   const selectItem = (id) => {
     dispatch(selectBoardId(id))
