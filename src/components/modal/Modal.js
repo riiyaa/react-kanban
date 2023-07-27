@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import "./Modal.scss";
 import { VscClose } from "react-icons/vsc";
 import { addBoard } from "../../slices/boardSlice/boardSlice";
@@ -7,7 +7,6 @@ import { addBoard } from "../../slices/boardSlice/boardSlice";
 function Modal(props) {
 
   const dispatch = useDispatch();
-  const boards  = useSelector((state) => state.boards);
   const initialStatus = {
     boardName:'BOARD',
     boardId:Math.floor(Math.random() * 10000000),
@@ -49,7 +48,6 @@ function Modal(props) {
     dispatch(addBoard(array))
     setArray(initialStatus)
     props.modalFuntion('')
-    console.log(boards);
   }
 
   
