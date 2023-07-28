@@ -62,6 +62,24 @@ function Modal(props) {
     props.modalFuntion('');
   }
 
+  const submitBoardArray = () =>{
+
+  }
+
+  const closeModal = () =>{
+    setArray(initialStatus);
+    props.modalFuntion('')
+  }
+
+  useEffect(() => {
+    if(props.modal=='addColumn'){
+      let current = structuredClone(boardsItem);
+      current = current.boards.find((data)=>data.boardId==current.selectedBoard)
+      setArray(current)
+    }
+  }, [props.modal])
+  
+
   return (
     <>
       {props.modal == "add" && (
@@ -112,7 +130,7 @@ function Modal(props) {
               </div>
 
               <div className="modal-action flex justify-between">
-                <label htmlFor="my_modal_6" className="btn" onClick={() => setArray(initialStatus)}>
+                <label htmlFor="my_modal_6" className="btn" onClick={() => closeModal()}>
                   Close!
                 </label>
                 <label className="btn bg-slate-400" onClick={()=>submit()}>Submit</label>
@@ -141,10 +159,67 @@ function Modal(props) {
                   ))}
               </select>
               <div className="modal-action flex justify-between">
-                <label htmlFor="my_modal_6" className="btn">
+                <label htmlFor="my_modal_6" className="btn" onClick={()=> props.modalFuntion('')}>
                   Close!
                 </label>
                 <label className="btn bg-slate-400" onClick={()=> deleteBoard()}>Submit</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {props.modal == "addColumn" && (
+        <div>
+          <input type="checkbox" id="my_modal_6" className="modal-toggle" />
+          <div className="modal">
+            <div className="modal-box">
+              <h1 className="font-bold text-2xl">Your Board</h1>
+              <p className="py-4">Enter Board Name : </p>
+              <input
+                type="text"
+                placeholder="Board Name"
+                className="input border-slate-500 w-full"
+                value={array.boardName}
+                onChange={(e) => changeName(e)}
+              />
+              <br />
+              <br />
+
+              {array.columns.map((data, index) => {
+                return (
+                  <div
+                    className="flex items-center justify-between gap-4 py-2"
+                    key={index}
+                  >
+                    <input
+                      type="text"
+                      placeholder="Board Name"
+                      className="input border-slate-500 w-full flex-1 h-9 outline-none"
+                      value={data.colName}
+                      onChange={(event) => changeColName(event, index)}
+                    />
+                    <label
+                      className=" py-1 px-3"
+                      onClick={() => delCol(data.colId)}
+                    >
+                      {" "}
+                      <VscClose className="text-2xl stroke-1 cursor-pointer" />
+                    </label>
+                  </div>
+                );
+              })}
+
+              <br />
+              <br />
+              <div className="primaryBtn text-center" onClick={() => addCol()}>
+                +Add New Column
+              </div>
+
+              <div className="modal-action flex justify-between">
+                <label htmlFor="my_modal_6" className="btn" onClick={() => props.modalFuntion('')}>
+                  Close!
+                </label>
+                <label className="btn bg-slate-400" onClick={()=>submitBoardArray()}>Submit</label>
               </div>
             </div>
           </div>

@@ -8,11 +8,12 @@ import { useSelector } from 'react-redux';
 
 function Navbar(props) {
 
+  const boardsItem =  useSelector(state => state.boards);
+  const [selectedName, setSelectedName] = useState('');
+
   const openPopup=(name)=>{
     props.modalFuntion(name);
   }
-  const boardsItem =  useSelector(state => state.boards);
-  const [selectedName, setSelectedName] = useState('')
 
   useEffect(() => {
     const selectedBoardName = boardsItem.boards.find(data=>data.boardId == boardsItem.selectedBoard);
