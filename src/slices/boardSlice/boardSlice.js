@@ -23,10 +23,20 @@ export const boardsName = createSlice({
       return curr
     },
 
-    updateBoard:(state,action)=>{
+    deleteOneBoard:(state,action)=>{
       const {payload} = action;
       let curr = structuredClone(current(state));
       curr.boards = curr.boards.filter((data)=>data.boardId != payload);
+      localStorage.setItem('boards',JSON.stringify(curr));
+      return curr
+    },
+
+    updateBoard:(state,action)=>{
+      const {payload} = action;
+      let curr = structuredClone(current(state));
+      const i = curr.boards.findIndex((data)=> data.boardId == payload.boardId);
+      curr.boards[i] = payload
+      localStorage.setItem('boards',JSON.stringify(curr));
       return curr
     },
 
@@ -39,4 +49,4 @@ export const boardsName = createSlice({
 })
 
 export default boardsName.reducer
-export const {addBoard,selectBoardId,updateBoard,initializeState} = boardsName.actions;
+export const {addBoard,selectBoardId,deleteOneBoard,updateBoard,initializeState} = boardsName.actions;

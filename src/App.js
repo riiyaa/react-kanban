@@ -53,7 +53,7 @@ function App() {
       <Sidebar modal={isModal} modalFuntion={setIsModal} />
       <div className='flex flex-col w-full'>
         <Navbar modal={isModal} modalFuntion={setIsModal}/>
-        <Dashboard/>
+        <Dashboard modal={isModal} modalFuntion={setIsModal} />
         <Modal modal={isModal} modalFuntion={setIsModal} />
       </div>
     </div>

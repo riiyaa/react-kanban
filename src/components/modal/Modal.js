@@ -2,7 +2,7 @@ import React, { useState,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./Modal.scss";
 import { VscClose } from "react-icons/vsc";
-import { addBoard, updateBoard } from "../../slices/boardSlice/boardSlice";
+import { addBoard, deleteOneBoard, updateBoard } from "../../slices/boardSlice/boardSlice";
 
 function Modal(props) {
 
@@ -57,13 +57,15 @@ function Modal(props) {
   }
 
   const deleteBoard = () => {
-    dispatch(updateBoard(useBoard));
+    dispatch(deleteOneBoard(useBoard));
     setArray(initialStatus);
     props.modalFuntion('');
   }
 
   const submitBoardArray = () =>{
-
+    dispatch(updateBoard(array));
+    setArray(initialStatus);
+    props.modalFuntion('');
   }
 
   const closeModal = () =>{
@@ -74,8 +76,10 @@ function Modal(props) {
   useEffect(() => {
     if(props.modal=='addColumn'){
       let current = structuredClone(boardsItem);
-      current = current.boards.find((data)=>data.boardId==current.selectedBoard)
-      setArray(current)
+      current = current.boards.find((data)=>data.boardId==current.selectedBoard);
+      setArray(current);
+    }else if(props.modal=='add'){
+      setArray(initialStatus)
     }
   }, [props.modal])
   
@@ -225,6 +229,62 @@ function Modal(props) {
           </div>
         </div>
       )}
+      {props.modal == "addTask" && (
+        <div>
+        <input type="checkbox" id="my_modal_6" className="modal-toggle" />
+        <div className="modal">
+          <div className="modal-box">
+            <h1 className="font-bold text-2xl">Create New Task</h1>
+            <p className="py-4">Task Name : </p>
+            <input
+              type="text"
+              placeholder="Board Name"
+              className="input border-slate-500 w-full"
+            />
+            <br />
+            <br />
+
+            {array.columns.map((data, index) => {
+              return (
+                <div
+                  className="flex items-center justify-between gap-4 py-2"
+                  key={index}
+                >
+                  <input
+                    type="text"
+                    placeholder="Board Name"
+                    className="input border-slate-500 w-full flex-1 h-9 outline-none"
+                    value={data.colName}
+                    onChange={(event) => changeColName(event, index)}
+                  />
+                  <label
+                    className=" py-1 px-3"
+                    onClick={() => delCol(data.colId)}
+                  >
+                    {" "}
+                    <VscClose className="text-2xl stroke-1 cursor-pointer" />
+                  </label>
+                </div>
+              );
+            })}
+
+            <br />
+            <br />
+            <div className="primaryBtn text-center" onClick={() => addCol()}>
+              +Add New Column
+            </div>
+
+            <div className="modal-action flex justify-between">
+              <label htmlFor="my_modal_6" className="btn" onClick={() => closeModal()}>
+                Close!
+              </label>
+              <label className="btn bg-slate-400" onClick={()=>submit()}>Submit</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      )
+      }
     </>
   );
 }
